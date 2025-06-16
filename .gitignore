@@ -1,0 +1,9 @@
+# VSCode settings
+.vscode/
+
+# Ignore any node_modules folder at any depth
+node_modules/
+
+# Ignore build outputs at any depth
+build/
+dist/
