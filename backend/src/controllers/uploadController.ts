@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import Queue from "bull";
 import { query } from "../db";
 
-const analysisQueue = new Queue("analysis", process.env.REDIS_URL!);
+import { analysisQueue } from "../queues/analysisQueue";
 
 export async function handleUpload(req: Request, res: Response) {
   const filePath = req.file!.path;
@@ -11,6 +11,9 @@ export async function handleUpload(req: Request, res: Response) {
     ["queued"]
   );
   const jobId = result.rows[0].id;
-  await analysisQueue.add({ jobId, filePath });
-  res.json({ jobId });
+  analysisQueue.on("ready", () => {
+    console.log("✅ Analysis queue connected to Redis");
+  });
+  analysisQueue.add({ jobId, filePath });
+  return res.status(202).json({ jobId, status: "queued" });
 }

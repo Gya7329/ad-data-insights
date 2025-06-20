@@ -36,9 +36,9 @@ export default function Results({ jobId }: Props) {
   return (
     <div>
       <h3>Metrics</h3>
-      <p>ROAS: {metrics.roas.toFixed(2)}</p>
-      <p>ACOS: {metrics.acos.toFixed(2)}</p>
-      <p>CTR: {(metrics.ctr * 100).toFixed(1)}%</p>
+      <p>ROAS: {Number(metrics.roas).toFixed(2)}</p>
+      <p>ACOS: {Number(metrics.acos).toFixed(2)}</p>
+      <p>CTR: {(Number(metrics.ctr) * 100).toFixed(1)}%</p>
       <p>Top Keywords: {metrics.top_keywords.join(", ")}</p>
       <p>Bottom Keywords: {metrics.bottom_keywords.join(", ")}</p>
     </div>
