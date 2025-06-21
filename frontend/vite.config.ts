@@ -11,7 +11,7 @@ export default defineConfig({
     proxy: {
       // proxy /api/* to http://localhost:4000/api/*
       '/api': {
-        target: 'http://localhost:4000',
+        target: 'http://164.52.198.193:4000',
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path.replace(/^\/api/, '/api'),
