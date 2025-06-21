@@ -14,9 +14,8 @@ flowchart LR
     Worker -->|Store Metrics| DB[(PostgreSQL)]
     User -->|GET /analysis/:id| Backend
     User -->|POST /optimize/:id| Backend
-    Backend -->|Invoke Agent| Agent[LangChain Agent]
-    Agent -->|LLM API Calls| LLM["LLM API (OpenAI)"]
-    Agent -->|Return Recommendations| Backend
+    Backend -->|Invoke Custom Agent| Agent[Custom Agent]
+    Agent -->|Process Metrics| Backend
     Backend -->|Respond| User
 ```
 
