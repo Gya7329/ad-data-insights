@@ -15,7 +15,7 @@ flowchart LR
     User -->|GET /analysis/:id| Backend
     User -->|POST /optimize/:id| Backend
     Backend -->|Invoke Agent| Agent[LangChain Agent]
-    Agent -->|LLM API Calls| LLM[LLM API (OpenAI)]
+    Agent -->|LLM API Calls| LLM["LLM API (OpenAI)"]
     Agent -->|Return Recommendations| Backend
     Backend -->|Respond| User
 ```
