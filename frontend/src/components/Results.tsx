@@ -15,6 +15,7 @@ interface Props {
 
 export default function Results({ jobId }: Props) {
   const [metrics, setMetrics] = useState<Metrics | null>(null);
+  console.log("Results component mounted with jobId:", metrics);
   const [status, setStatus] = useState("processing");
 
   useEffect(() => {
@@ -53,17 +54,21 @@ export default function Results({ jobId }: Props) {
       >
         <MetricCard
           label="ROAS"
-          value={metrics.roas.toFixed(2)}
+          value={Number(metrics.roas)?.toFixed(2)}
           color="#43a047"
         />
         <MetricCard
           label="ACOS"
-          value={metrics.acos.toFixed(2)}
+          value={Number(metrics.acos)?.toFixed(2)}
           color="#e65100"
         />
         <MetricCard
           label="CTR"
-          value={(metrics.ctr * 100).toFixed(1) + "%"}
+          value={
+            metrics.ctr !== undefined
+              ? (Number(metrics.ctr) * 100).toFixed(1) + "%"
+              : "N/A"
+          }
           color="#1976d2"
         />
       </div>
@@ -96,7 +101,7 @@ function MetricCard({
   color,
 }: {
   label: string;
-  value: string;
+  value: number | string;
   color: string;
 }) {
   return (
