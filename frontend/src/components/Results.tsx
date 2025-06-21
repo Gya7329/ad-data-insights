@@ -31,16 +31,109 @@ export default function Results({ jobId }: Props) {
     return () => clearInterval(interval);
   }, [jobId]);
 
-  if (status !== "completed") return <p>Analysis: {status}</p>;
+  if (status !== "completed")
+    return (
+      <div style={{ textAlign: "center", margin: "32px 0" }}>
+        <span style={{ fontSize: 20, color: "#1976d2" }}>
+          Analysis: {status}…
+        </span>
+      </div>
+    );
   if (!metrics) return null;
   return (
+    <div style={{ margin: "32px 0" }}>
+      <h3 style={{ color: "#1976d2", marginBottom: 16 }}>Metrics</h3>
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: 24,
+          justifyContent: "center",
+        }}
+      >
+        <MetricCard
+          label="ROAS"
+          value={metrics.roas.toFixed(2)}
+          color="#43a047"
+        />
+        <MetricCard
+          label="ACOS"
+          value={metrics.acos.toFixed(2)}
+          color="#e65100"
+        />
+        <MetricCard
+          label="CTR"
+          value={(metrics.ctr * 100).toFixed(1) + "%"}
+          color="#1976d2"
+        />
+      </div>
+      <div
+        style={{
+          marginTop: 24,
+          display: "flex",
+          gap: 32,
+          justifyContent: "center",
+        }}
+      >
+        <KeywordList
+          title="Top Keywords"
+          keywords={metrics.top_keywords}
+          color="#43a047"
+        />
+        <KeywordList
+          title="Bottom Keywords"
+          keywords={metrics.bottom_keywords}
+          color="#e65100"
+        />
+      </div>
+    </div>
+  );
+}
+
+function MetricCard({
+  label,
+  value,
+  color,
+}: {
+  label: string;
+  value: string;
+  color: string;
+}) {
+  return (
+    <div
+      style={{
+        background: color + "11",
+        borderRadius: 12,
+        padding: 20,
+        minWidth: 120,
+        textAlign: "center",
+      }}
+    >
+      <div style={{ fontSize: 18, color }}>{label}</div>
+      <div style={{ fontSize: 28, fontWeight: 700, color }}>{value}</div>
+    </div>
+  );
+}
+
+function KeywordList({
+  title,
+  keywords,
+  color,
+}: {
+  title: string;
+  keywords: string[];
+  color: string;
+}) {
+  return (
     <div>
-      <h3>Metrics</h3>
-      <p>ROAS: {Number(metrics.roas).toFixed(2)}</p>
-      <p>ACOS: {Number(metrics.acos).toFixed(2)}</p>
-      <p>CTR: {(Number(metrics.ctr) * 100).toFixed(1)}%</p>
-      <p>Top Keywords: {metrics.top_keywords.join(", ")}</p>
-      <p>Bottom Keywords: {metrics.bottom_keywords.join(", ")}</p>
+      <div style={{ fontWeight: 600, color, marginBottom: 8 }}>{title}</div>
+      <ul style={{ paddingLeft: 20, color }}>
+        {keywords.length ? (
+          keywords.map((k, i) => <li key={i}>{k}</li>)
+        ) : (
+          <li>None</li>
+        )}
+      </ul>
     </div>
   );
 }
